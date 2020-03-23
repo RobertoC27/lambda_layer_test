@@ -56,10 +56,12 @@
               <goal>copy-dependencies</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.build.directory}/dependencies</outputDirectory>
+              <outputDirectory>bouncycastle_layer/java/lib/</outputDirectory>
               <overWriteReleases>false</overWriteReleases>
               <overWriteSnapshots>false</overWriteSnapshots>
               <overWriteIfNewer>true</overWriteIfNewer>
+              <excludeGroupIds>org.hamcrest,junit</excludeGroupIds>
+              <!-- <excludeGroupIds>org.junit</excludeGroupIds> -->
             </configuration>
           </execution>
         </executions>
