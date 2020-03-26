@@ -103,7 +103,7 @@
               <overWriteReleases>false</overWriteReleases>
               <overWriteSnapshots>false</overWriteSnapshots>
               <overWriteIfNewer>true</overWriteIfNewer>
-              <excludeGroupIds>org.hamcrest,junit</excludeGroupIds>
+              <excludeGroupIds>org.hamcrest,junit,com.amazonaws</excludeGroupIds>
               <!-- <excludeGroupIds>org.junit</excludeGroupIds> -->
             </configuration>
           </execution>
