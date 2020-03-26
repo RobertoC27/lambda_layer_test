@@ -14,9 +14,25 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
+
+  <profiles>
+    <profile>
+      <id>default-profile</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <layerPath>/opt/java/lib</layerPath>
+        <bcprovJarPath>${layerPath}/bcprov-jdk15on-1.64.jar</bcprovJarPath>
+        <bcprovVersion>1.64</bcprovVersion>
+        <bcpkixJarPath>${layerPath}/bcpkix-jdk15on-1.64.jar</bcpkixJarPath>
+        <bcpkixVersion>1.64</bcpkixVersion>
+      </properties>
+    </profile>
+  </profiles>
 
   <dependencies>
     <dependency>
@@ -30,16 +46,21 @@
     <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcprov-jdk15on</artifactId>
-      <version>1.64</version>
+      <version>${bcprovVerion}</version>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcpkix-jdk15on -->
     <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcpkix-jdk15on</artifactId>
-      <version>1.64</version>
+      <version>${bcpkixVersion}</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.amazonaws</groupId>
+      <artifactId>aws-lambda-java-core</artifactId>
+      <version>1.1.0</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -62,6 +83,40 @@
               <overWriteIfNewer>true</overWriteIfNewer>
               <excludeGroupIds>org.hamcrest,junit</excludeGroupIds>
               <!-- <excludeGroupIds>org.junit</excludeGroupIds> -->
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.1</version>
+        <executions>
+          <execution>
+            <id>build-app</id>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <outputFile>target/assembly/multiple_layers.jar</outputFile>
+              <createDependencyReducedPom>false</createDependencyReducedPom>
+              <filters>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/*.SF</exclude>
+                    <exclude>META-INF/*.DSA</exclude>
+                    <exclude>META-INF/*.RSA</exclude>
+                  </excludes>
+                </filter>
+              </filters>
+              <artifactSet>
+                <excludes>
+                  <exclude>org.bouncycastle</exclude>
+                </excludes>
+              </artifactSet>
             </configuration>
           </execution>
         </executions>
