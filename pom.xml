@@ -81,7 +81,7 @@
               <artifactId>bcprov-jdk15on</artifactId>
               <version>${bcprovVersion}</version>
               <packaging>jar</packaging>
-              <file>${layerPath}/${bcprovJarPath}</file>
+              <file>${layerPath}/${bcprovJar}</file>
               <generatePom>true</generatePom>
             </configuration>
           </execution>
