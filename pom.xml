@@ -26,9 +26,9 @@
       </activation>
       <properties>
         <layerPath>/opt/java/lib</layerPath>
-        <bcprovJarPath>${layerPath}/bcprov-jdk15on-1.64.jar</bcprovJarPath>
+        <bcprovJar>bcprov-jdk15on-1.64.jar</bcprovJar>
         <bcprovVersion>1.64</bcprovVersion>
-        <bcpkixJarPath>${layerPath}/bcpkix-jdk15on-1.64.jar</bcpkixJarPath>
+        <bcpkixJar>bcpkix-jdk15on-1.64.jar</bcpkixJar>
         <bcpkixVersion>1.64</bcpkixVersion>
       </properties>
     </profile>
@@ -46,7 +46,7 @@
     <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcprov-jdk15on</artifactId>
-      <version>${bcprovVerion}</version>
+      <version>${bcprovVersion}</version>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcpkix-jdk15on -->
@@ -65,6 +65,28 @@
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-install-plugin</artifactId>
+        <version>2.5.1</version>
+        <executions>
+          <execution>
+            <id>install-bcprov-jar</id>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+            <phase>validate</phase>
+            <configuration>
+              <groupId>org.bouncycastle</groupId>
+              <artifactId>bcprov-jdk15on</artifactId>
+              <version>${bcprovVersion}</version>
+              <packaging>jar</packaging>
+              <file>${layerPath}/${bcprovJarPath}</file>
+              <generatePom>true</generatePom>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
